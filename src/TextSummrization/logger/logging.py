@@ -1,10 +1,12 @@
 import logging 
+#src\TextSummrization\logger\logging.py
+# D:\Data Science\NLP\Project\Text-Summarizer-Project\src\TextSummrization\pipeline\training_pipeline.py
 import os ,sys
 from datetime import datetime
 import pandas as pd
 LOG_DIR = 'TextSummarizationLog'
 LOG_DIR = os.path.join(os.getcwd() , LOG_DIR)
-
+print(LOG_DIR)
 os.makedirs(LOG_DIR , exist_ok=True)
 
 CURRENT_TIME_STAMP = f"{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
@@ -12,6 +14,7 @@ CURRENT_TIME_STAMP = f"{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
 file_name = f"log_{CURRENT_TIME_STAMP}.log"
 
 log_file_path = os.path.join(LOG_DIR , file_name)
+print(log_file_path)
 
 logging.basicConfig(filename=log_file_path ,
                     filemode= 'w',
