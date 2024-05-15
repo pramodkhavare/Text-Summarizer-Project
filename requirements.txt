@@ -1,5 +1,5 @@
 transformers 
-transformers[sentancepiece] 
+transformers[sentancepiece]
 datasets 
 sacrebleu 
 rouge_score 
@@ -21,4 +21,5 @@ Jinja2==3.1.2
 python-box
 numpy
 ensure
+protobuf
 -e .

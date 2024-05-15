@@ -9,4 +9,37 @@ data_ingestion_config :
   raw_data_dir : raw_data
   ingested_dir : ingested_data 
   ingested_train_dir : train 
-  ingested_test_dir : test
+  ingested_test_dir : test 
+
+data_validation_config:
+  data_validation_dir : 'data_validation'
+  schema_dir : config 
+  schema_file_name : schema.yaml
+  report_file_name : status.txt 
+  # report_file_name : report.json 
+  # report_page_file_name : report.html
+
+data_transformation_config:
+  data_transformation_dir : 'data_transformation'
+  tokenizer_name : google/pegasus-cnn_dailymail 
+  tokenizer_dir : Tokenizer
+  tokenizer_file_name : pegasus_samsum_model_tokenizer 
+  # tokenizer_obj_file_name : Tokenizer
+
+  
+model_training_config :
+  trained_model_main_dir_name : model_training #main dir from in artifacts
+  trained_model_dir : trained_model  #SUb directory in trained_model_main_dir_name
+  model_file_name : pegasus_samsum_model 
+  
+  tokenizer_dir : tokenizer 
+  tokenizer_file_name : pegasus_samsum_tokenizer
+  model_config_dir : config 
+  model_config_file_name : model.yaml
+
+
+model_evaluation_config : 
+  model_evaluation_dir : 'model_evaluation' 
+  report_file_name : model_report.csv 
+
+

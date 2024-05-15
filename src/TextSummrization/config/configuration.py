@@ -1,4 +1,4 @@
-from src.TextSummrization.entity.config_entity import DataIngestionConfig ,TrainingPipelineConfig
+from src.TextSummrization.entity.config_entity import DataIngestionConfig ,DataValidationConfig,TrainingPipelineConfig,DataTransformationConfig ,ModelTrainingConfig,ModelEvaluationConfig
 from src.TextSummrization.entity.artifacts_entity import DataIngestionArtifacts
 from src.TextSummrization.exception import TextSummarizationException 
 from src.TextSummrization.logger.logging import logging 
@@ -27,7 +27,7 @@ class ConfigurationManager:
         try:
             config = self.config_info[DATA_INGESTION_CONFIG_KEY]
             data_ingestion_dir_key = os.path.join(
-                self.training_pipeline_config ,
+                self.training_pipeline_config.artifact_dir ,
                 config[DATA_INGESTION_DIR_KEY] ,
                 self.current_time_stamp
             )
@@ -68,24 +68,144 @@ class ConfigurationManager:
                 ingested_train_dir= ingested_train_dir,
                 ingested_test_dir= ingested_test_dir
             ) 
-
-            logging.info("Data ingestion config step completed")
             return data_ingestion_config
         except TextSummarizationException as e:
             raise TextSummarizationException(e ,sys)
+        
+    def get_data_validation_config(self) -> DataValidationConfig:
+        try:
+            config = self.config_info[DATA_VALIDATION_CONFIG_KEY] 
+
+            data_validation_dir_key = os.path.join(
+                self.training_pipeline_config.artifact_dir ,
+                config[DATA_VALIDATION_DIR_KEY] ,
+                self.current_time_stamp 
+            )
+            schema_file_path = os.path.join(
+                ROOT_DIR ,
+                config[SCHEMA_DIR_KEY] ,
+                config[SCHEMA_FILE_NAME_KEY]
+            )
+
+            status_file_path = os.path.join(
+                data_validation_dir_key ,
+                config[REPORT_FILE_NAME_KEY]
+            )
+
+            data_validation_config = DataValidationConfig(
+                schema_file_path= schema_file_path,
+                status_file_path= status_file_path
+            )
+
+            return data_validation_config
+
+        except Exception as e:
+            raise TextSummarizationException (e ,sys)
+
+    def get_data_transformation_config(self) ->DataTransformationConfig:
+        try:
+            logging.info("Getting Data Transformation Config Component")
+            config =self.config_info[DATA_TRANSFORMATION_CONFIG_KEY] 
+            transformed_dir = os.path.join(
+                self.training_pipeline_config.artifact_dir ,
+                config[DATA_TRANSFORMATION_DIR_KEY] ,
+                self.current_time_stamp
+            )
+
+            tokenizer_dir_path = os.path.join(
+                transformed_dir ,
+                config[TOKENIZER_DIR_KEY])
+            
+            tokenizer_file_path = os.path.join(
+                transformed_dir ,
+                config[TOKENIZER_DIR_KEY] ,
+                config[TOKENIZER_FILE_NAME_KEY] )
+
+            tokenizer_name = config[TOKENIZER_NAME_KEY]
+            data_transformation_config = DataTransformationConfig(
+                transformed_dir= transformed_dir,
+                tokenizer_dir_path= tokenizer_dir_path,
+                tokenizer_file_path= tokenizer_file_path ,
+                tokenizer_name= tokenizer_name
+            )
+
+            print(data_transformation_config)
+            return data_transformation_config
+        except TextSummarizationException as e:
+            raise TextSummarizationException(e ,sys)
+        
+    def get_model_training_config(self)->ModelTrainingConfig:
+        try:
+            config = self.config_info[MODEL_TRAINING_CONFIG_KEY]
+            trained_model_folder_path =  os.path.join(
+                self.training_pipeline_config.artifact_dir ,
+                config[TRAINED_MODEL_MAIN_DIR_NAME_KEY] ,
+                self.current_time_stamp 
+            )
+            trained_model_file_path =  os.path.join(
+                trained_model_folder_path ,
+                config[MODEL_FILE_NAME_KEY]
+                
+            )
+            model_config_file_path = os.path.join(
+                ROOT_DIR ,
+                config[MODEL_CONFIG_DIR_KEY] ,
+                config[MODEL_CONFIG_FILE_NAME_KEY]
+            )
+            
+            tokenizer_file_path = os.path.join(
+                self.training_pipeline_config.artifact_dir ,
+                config[TRAINED_MODEL_MAIN_DIR_NAME_KEY] ,
+                self.current_time_stamp ,
+                config[TOKENIZER_FILE_NAME_KEY]
+
+            )
+            model_training_config = ModelTrainingConfig(
+                trained_model_folder_path = trained_model_folder_path ,
+                trained_model_file_path= trained_model_file_path, 
+                model_config_file_path= model_config_file_path ,
+                tokenizer_file_path= tokenizer_file_path
+            )
+            return model_training_config
+
+        except TextSummarizationException as e:
+            raise TextSummarizationException(e ,sys)
+        
 
     def get_training_pipeline_config(self) ->TrainingPipelineConfig:
+
         try:
             config = self.config_info[TRAINING_PIPELINE_CONFIG]
             artifact_dir  = os.path.join(ROOT_DIR 
                                          ,config[TRAINING_PIPELINE_CONFIG_ARTIFACTS_DIR])
             
             training_pipeline_config = TrainingPipelineConfig(artifact_dir=artifact_dir)
-            return training_pipeline_config.artifact_dir
+            return training_pipeline_config
 
         except Exception as e:
             raise TextSummarizationException (e ,sys)
-        
+    def get_model_evaluation_config(self) -> ModelEvaluationConfig:
+        try:
+            config =self.config_info[MODEL_EVALUATION_CONFIG_KEY]
+
+            model_evaluation_dir_key = os.path.join(
+                self.training_pipeline_config.artifact_dir ,
+                config[MODEL_EVALUATION_DIR_KEY] ,
+                self.current_time_stamp 
+            )
+            report_file_path = os.path.join(
+                model_evaluation_dir_key,
+                config[REPORT_FILE_NAME_KEY]
+            )
+            
+            model_evaluation_config = ModelEvaluationConfig( 
+                model_evalution_dir= model_evaluation_dir_key ,
+                report_file_path= report_file_path
+            )
+
+            return model_evaluation_config
+        except Exception as e:
+            raise TextSummarizationException (e ,sys)
 
 
 if __name__ == '__main__':
@@ -93,6 +213,5 @@ if __name__ == '__main__':
         config_file_path= CONFIG_FILE_PATH ,
         current_time_stamp= CURRENT_TIME_STAMP
     )
-    print(manager.get_data_ingestion_config())
 
 # "src\TextSummrization\config\configuration.py"
