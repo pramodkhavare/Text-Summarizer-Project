@@ -43,3 +43,8 @@ model_evaluation_config :
   report_file_name : model_report.csv 
 
 
+model_pusher_config:
+  export_dir_name : export_dir 
+  export_model_file_name : pegasus-samsun_model
+  export_tokenizer_file_name : tokenizer
+

@@ -1,4 +1,4 @@
-from src.TextSummrization.entity.config_entity import DataIngestionConfig ,DataValidationConfig,TrainingPipelineConfig,DataTransformationConfig ,ModelTrainingConfig,ModelEvaluationConfig
+from src.TextSummrization.entity.config_entity import DataIngestionConfig ,DataValidationConfig,TrainingPipelineConfig,DataTransformationConfig ,ModelTrainingConfig,ModelEvaluationConfig ,ModelPusherConfig
 from src.TextSummrization.entity.artifacts_entity import DataIngestionArtifacts
 from src.TextSummrization.exception import TextSummarizationException 
 from src.TextSummrization.logger.logging import logging 
@@ -129,7 +129,7 @@ class ConfigurationManager:
                 tokenizer_name= tokenizer_name
             )
 
-            print(data_transformation_config)
+
             return data_transformation_config
         except TextSummarizationException as e:
             raise TextSummarizationException(e ,sys)
@@ -205,7 +205,39 @@ class ConfigurationManager:
 
             return model_evaluation_config
         except Exception as e:
-            raise TextSummarizationException (e ,sys)
+            raise TextSummarizationException (e ,sys) 
+        
+    def get_model_pusher_config(self) ->ModelPusherConfig:
+        try:
+            config = self.config_info[MODEL_PUSHER_CONFIG_KEY] 
+
+            dir_name = config[EXPOSRT_DIR_NAME_KEY]
+            export_dir_path = os.path.join(
+                ROOT_DIR ,
+                dir_name ,
+                CURRENT_TIME_STAMP
+            )
+
+            export_file_path = os.path.join(
+                export_dir_path ,
+                config[EXPORT_MODEL_FILE_NAME_KEY]
+            )
+
+            export_tokenizer_file_path = os.path.join(
+                export_dir_path ,
+                config[EXPORT_TOKENIZER_FILE_NAME_KEY]
+            )
+
+ 
+            model_pusher_config = ModelPusherConfig(
+                export_dir_path= export_dir_path,
+                export_model_file_path= export_file_path ,
+                export_tokenizer_file_path = export_tokenizer_file_path
+            )
+            return model_pusher_config
+
+        except Exception as e:
+            raise TextSummarizationException (e ,sys) 
 
 
 if __name__ == '__main__':

@@ -59,10 +59,8 @@ class DataTransformer():
                 transformed_data_folder= transformed_data_folder,
                 tokenizer_obj_file_path= tokenizer_file_path
             )
-            print('Data Transformation Artifacts')
             # os.makedirs(self.data_transformation_config.transformed_dir ,exist_ok=True)
             # self.tokenizer.save_pretrained(tokenizer_file_path)
-            print(data_transformation_artifacts)
             return data_transformation_artifacts
         except Exception as e:
             logging.info("Unable To Apply Transformation On Data")

@@ -27,4 +27,12 @@ class ModelTrainingArtifacts:
 @dataclass(frozen=True)
 class ModelEvaluationArtifacts:
     report_file_path :str 
-    message :str
+    message :str 
+    model_file_path :str 
+    tokennizer_file_path :str
+
+@dataclass(frozen=True)
+class ModelPusherArtifacts:
+    is_model_pushed :str 
+    export_model_file_path :str
+    export_tokenizer_file_path:str

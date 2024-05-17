@@ -24,7 +24,7 @@ class ModelTrainer():
             self.data_transformation_artifacts = data_transformation_artifacts 
             model_config_file_path= self.model_training_config.model_config_file_path
             self.model_config_data = read_yaml(model_config_file_path)['model_details']
-            print(self.model_training_config)
+
         except Exception as e:
             raise TextSummarizationException(e,sys)
     def train(self):

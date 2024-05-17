@@ -47,6 +47,14 @@ class ModelEvaluationConfig:
     report_file_path :str 
 
 
+
+@dataclass(frozen=True)
+class ModelPusherConfig:
+    export_dir_path :str 
+    export_model_file_path :str 
+    export_tokenizer_file_path :str 
+
+
 @dataclass(frozen=True)
 class TrainingPipelineConfig:
     artifact_dir :str

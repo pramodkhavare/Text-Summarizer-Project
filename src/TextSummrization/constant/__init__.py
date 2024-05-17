@@ -58,4 +58,12 @@ MODEL_CONFIG_FILE_NAME_KEY = 'model_config_file_name' #model.yaml
 #VARIABLE RELATED WITH MODEL EVALUATION
 MODEL_EVALUATION_CONFIG_KEY = 'model_evaluation_config' 
 MODEL_EVALUATION_DIR_KEY = 'model_evaluation_dir' 
-REPORT_FILE_NAME_KEY = 'report_file_name'
+REPORT_FILE_NAME_KEY = 'report_file_name' 
+
+
+
+#VARIABLE RELATED WITH MODEL PUSHING 
+MODEL_PUSHER_CONFIG_KEY =  "model_pusher_config" 
+EXPOSRT_DIR_NAME_KEY = "export_dir_name"
+EXPORT_MODEL_FILE_NAME_KEY = "export_model_file_name"
+EXPORT_TOKENIZER_FILE_NAME_KEY = "export_tokenizer_file_name"
